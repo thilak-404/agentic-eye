@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { auth, db, googleProvider, signInWithPopup, signOut, createUserProfile } from '../lib/firebase';
+import { auth, db, googleProvider, signInWithPopup, signOut, createUserProfile, onAuthStateChanged } from '../lib/firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
 
 export default function Home() {
@@ -10,7 +10,7 @@ export default function Home() {
     const [plan, setPlan] = useState('free');
 
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(async (u) => {
+        const unsubscribe = onAuthStateChanged(auth, async (u) => {
             if (u) {
                 setUser(u);
                 await createUserProfile(u);
